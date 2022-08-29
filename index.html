@@ -1,0 +1,35 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Amigirumi pattern</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src='display-pattern.js'></script>
+
+    </head>
+    <style>
+     .grid-container {
+         display: grid;
+         grid-auto-columns: 1fr;
+         grid-auto-flow: column;
+         grid-template-rows: auto 500px;
+         column-gap: 50px;
+     }
+    </style>
+    <body>
+        <div class='grid-container'>
+            <div>
+                <h2>Pattern:</h2>
+                <p>Enter your pattern below.</p>
+                <button onclick='display_pattern()'>Display pattern</button>
+            </div>
+            <textarea placeholder='Enter text here' id='input-text'></textarea>
+            <h2>Pattern:</h2>
+            <svg id='chart'></svg>
+        </div>
+    </body>
+</html>
