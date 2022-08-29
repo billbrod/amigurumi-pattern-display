@@ -20,6 +20,8 @@ function convert_pattern_text(pattern) {
         for (let j in pattern[i]) {
             if (pattern[i][j].split('1')[0]) {
                 current_color = pattern[i][j].split('1')[0]
+            } else if (secondary_color != current_color) {
+                current_color = secondary_color
             }
             if (pattern[i][j].split('1')[1].replace('inc', '').replace('sc', '').replace('dec', '')) {
                 secondary_color = pattern[i][j].split('1')[1].replace('inc', '').replace('sc', '').replace('dec', '')
@@ -36,7 +38,7 @@ function convert_pattern_text(pattern) {
 function display_pattern({
     cellSize = 25,
 } ={}) {
-    marginLeft = 30
+    marginLeft = 80
     pattern = convert_pattern_text($('#input-text').val())
     const stitch_color = d3.map(pattern, d => d[0])
     const stitch_type = d3.map(pattern, d => d[1])
@@ -58,6 +60,7 @@ function display_pattern({
     const yScale = d3.scaleBand(rows, [0, height]).padding(0)
     const xScales = row_stitch_count.map(max_stitch => d3.scaleBand(d3.range(0, max_stitch), [0, width]).padding(0))
 
+    $('#chart').children().remove()
     const svg = d3.select('#chart')
                   .attr('width', width + marginLeft)
                   .attr('height', height)
@@ -81,7 +84,7 @@ function display_pattern({
        .call(yAxis)
        .attr("font-size", 15)
        .selectAll('text')
-       .text(i => actual_stitch_counts[i])
+       .text(i => `#${i+1}: ${actual_stitch_counts[i]}`)
 
     return Object.assign(svg.node(), {scales: {color}});
 }
