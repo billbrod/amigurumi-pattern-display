@@ -74,8 +74,9 @@ function display_pattern({
        .data(I)
        .join('rect')
          .attr('height', cellSize)
-         .attr('width', cellSize)
+         .attr('width', i => xScales[row_n[i]].bandwidth())
          .attr('fill', i => color(stitch_color[i]))
+         .style('stroke', 'black')
          .attr('y', i => yScale(row_n[i]))
          .attr('x', i => xScales[row_n[i]](stitch_n[i]))
 
