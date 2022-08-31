@@ -8,6 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src='lined-textarea/jquery-linedtextarea.js'></script>
+        <link href='lined-textarea/jquery-linedtextarea.css' rel='stylesheet'>
         <script src='display-pattern.js'></script>
 
     </head>
@@ -19,6 +21,12 @@
          grid-template-rows: auto 500px;
          column-gap: 50px;
      }
+     .linedtextarea {
+         height: 100%;
+     }
+     textarea {
+         height: 100%;
+     }
     </style>
     <body>
         <div class='grid-container'>
@@ -27,9 +35,13 @@
                 <p>Enter your pattern below.</p>
                 <button onclick='display_pattern()'>Display pattern</button>
             </div>
-            <textarea placeholder='Enter text here' id='input-text'></textarea>
+            <!-- table or textarea for entering the color? -->
+            <textarea placeholder='Enter pattern here' id='input-text'></textarea>
             <h2>Pattern:</h2>
             <svg id='chart'></svg>
         </div>
     </body>
+    <script>
+     $(function() {$('#input-text').linedtextarea()});
+    </script>
 </html>
