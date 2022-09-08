@@ -69,7 +69,7 @@ function display_pattern({
                   .attr("font-family", "sans-serif")
                   .attr("font-size", 10);
 
-    svg.append('g')
+    stitches = svg.append('g')
        .selectAll('rect')
        .data(I)
        .join('rect')
@@ -79,6 +79,32 @@ function display_pattern({
          .style('stroke', 'black')
          .attr('y', i => yScale(row_n[i]))
          .attr('x', i => xScales[row_n[i]](stitch_n[i]))
+    stitches.append('title')
+            .text(i => `#${stitch_n[i]+1}: ${stitch_type[i]}`)
+
+    // horizontal lines to show decreases
+    svg.append('g')
+       .selectAll('line')
+       .data(I)
+       .join('line')
+         .attr('display', i => stitch_type[i] == 'dec' ? null : 'none')
+         .style('stroke', 'red')
+         .attr('x1', i => xScales[row_n[i]](stitch_n[i]) + .25 * xScales[row_n[i]].bandwidth())
+         .attr('x2', i => xScales[row_n[i]](stitch_n[i]) + .75 * xScales[row_n[i]].bandwidth())
+         .attr('y1', i => yScale(row_n[i]) + .5 * yScale.bandwidth())
+         .attr('y2', i => yScale(row_n[i]) + .5 * yScale.bandwidth())
+
+    // vertical lines to show increases
+    svg.append('g')
+       .selectAll('line')
+       .data(I)
+       .join('line')
+         .attr('display', i => stitch_type[i] == 'inc' ? null : 'none')
+         .style('stroke', 'red')
+         .attr('x1', i => xScales[row_n[i]](stitch_n[i]) + .5 * xScales[row_n[i]].bandwidth())
+         .attr('x2', i => xScales[row_n[i]](stitch_n[i]) + .5 * xScales[row_n[i]].bandwidth())
+         .attr('y1', i => yScale(row_n[i]) + .25 * yScale.bandwidth())
+         .attr('y2', i => yScale(row_n[i]) + .75 * yScale.bandwidth())
 
     var yAxis = d3.axisLeft(yScale)
     svg.append('g')
