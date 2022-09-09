@@ -35,6 +35,55 @@ function convert_pattern_text(pattern) {
     return stitches
 }
 
+function construct_color_form(uniq_colors) {
+    // make sure uniq_colors is an Array, the for loop won't work if it's a set
+    uniq_colors = new Array(...uniq_colors)
+    color_form = d3.select('#color-form')
+    // remove old pattern colors
+    color_form.selectAll('label').filter('.stitch-color').remove()
+    color_form.selectAll('input').filter('.stitch-color').remove()
+    color_form.selectAll('br').filter('.stitch-color').remove()
+    // add new colors
+    for (let i in uniq_colors) {
+        c = uniq_colors[i]
+        color_form.append('label')
+                  .attr('class', 'stitch-color')
+                  .attr('for', `stitch-${c}`)
+                  .text(`Stitch color ${c}:`)
+        color_form.append('input')
+                  .attr('class', 'stitch-color')
+                  .attr('id', `stitch-${c}`)
+                  .attr('name', `stitch-${c}`)
+        color_form.append('br')
+                  .attr('class', 'stitch-color')
+    }
+}
+
+function update_colors() {
+    // update colors of the different stitches
+    div_line = d3.selectAll('input').filter('#cell').property('value')
+    if (div_line != '') {
+        d3.selectAll('rect').style('stroke', div_line)
+    }
+    inc_line = d3.selectAll('input').filter('#inc').property('value')
+    if (inc_line != '') {
+        d3.selectAll('line').filter('.inc').style('stroke', inc_line)
+    }
+    dec_line = d3.selectAll('input').filter('#dec').property('value')
+    if (dec_line != '') {
+        d3.selectAll('line').filter('.dec').style('stroke', dec_line)
+    }
+    stitch_inputs = d3.selectAll('input').filter('.stitch-color').each(
+        function(d, i ,j) {
+            // for some reason, d is undefined, so we use j[i]
+            c = j[i].value
+            if (c != '') {
+                d3.selectAll('rect').filter(`.${j[i].id}`).attr('fill', c)
+            }
+        }
+    )
+}
+
 function display_pattern({
     cellSize = 25,
 } ={}) {
@@ -55,7 +104,9 @@ function display_pattern({
 
     const width = d3.max(stitch_n) * cellSize
     const height = d3.max(row_n) * cellSize
-    const color = d3.scaleOrdinal(new Set(...stitch_color), d3.schemeCategory10);
+    const uniq_colors = new Set(stitch_color)
+    const color = d3.scaleOrdinal(uniq_colors, d3.schemeCategory10);
+    construct_color_form(uniq_colors)
 
     const yScale = d3.scaleBand(rows, [0, height]).padding(0)
     const xScales = row_stitch_count.map(max_stitch => d3.scaleBand(d3.range(0, max_stitch), [0, width]).padding(0))
@@ -73,6 +124,7 @@ function display_pattern({
        .selectAll('rect')
        .data(I)
        .join('rect')
+         .attr('class', i => `stitch-${stitch_color[i]}`)
          .attr('height', cellSize)
          .attr('width', i => xScales[row_n[i]].bandwidth())
          .attr('fill', i => color(stitch_color[i]))
@@ -88,6 +140,7 @@ function display_pattern({
        .data(I)
        .join('line')
          .attr('display', i => stitch_type[i] == 'dec' ? null : 'none')
+         .attr('class', 'dec')
          .style('stroke', 'red')
          .attr('x1', i => xScales[row_n[i]](stitch_n[i]) + .25 * xScales[row_n[i]].bandwidth())
          .attr('x2', i => xScales[row_n[i]](stitch_n[i]) + .75 * xScales[row_n[i]].bandwidth())
@@ -100,6 +153,7 @@ function display_pattern({
        .data(I)
        .join('line')
          .attr('display', i => stitch_type[i] == 'inc' ? null : 'none')
+         .attr('class', 'inc')
          .style('stroke', 'red')
          .attr('x1', i => xScales[row_n[i]](stitch_n[i]) + .5 * xScales[row_n[i]].bandwidth())
          .attr('x2', i => xScales[row_n[i]](stitch_n[i]) + .5 * xScales[row_n[i]].bandwidth())

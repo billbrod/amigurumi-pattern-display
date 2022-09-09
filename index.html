@@ -16,10 +16,10 @@
     <style>
      .grid-container {
          display: grid;
-         grid-auto-columns: 1fr;
          grid-auto-flow: column;
          grid-template-rows: auto 500px;
-         column-gap: 50px;
+         grid-template-columns: 3fr 1fr 3fr;
+         column-gap: 10px;
      }
      .linedtextarea {
          height: 100%;
@@ -35,8 +35,18 @@
                 <p>Enter your pattern below.</p>
                 <button onclick='display_pattern()'>Display pattern</button>
             </div>
-            <!-- table or textarea for entering the color? -->
+            <!-- something to rotate starting point? lines still locked to first stich, but would make it easier to see colored patterns that span rows -->
             <textarea placeholder='Enter pattern here' id='input-text'></textarea>
+            <div></div>
+            <form id='color-form' action='javascript:update_colors()'>
+                <input type='submit' value='Update colors'><br>
+                <label for='cell'>Stitch dividing lines:</label>
+                <input type='text' id='cell' name='cell'><br>
+                <label for='inc'>Increasing lines:</label>
+                <input type='text' id='inc' name='inc'><br>
+                <label for='dec'>Decreasing lines:</label>
+                <input type='text' id='dec' name='dec'><br>
+            </form>
             <h2>Pattern:</h2>
             <svg id='chart'></svg>
         </div>
