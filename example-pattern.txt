@@ -19,3 +19,8 @@ C 3 sc, B 14 sc, C 3 sc, A 12 sc
 [1 dec, 2 sc] * 5
 [1 dec, 1 sc] * 5
 5 dec
+
+# colors:
+# A: #898989
+# B: #cb7051
+# C: #fcfcfc
