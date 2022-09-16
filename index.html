@@ -42,6 +42,7 @@
                     <li><tt>#</tt> denotes a comment: anything after it on that line will be ignored.</li>
                 </ul>
                 <button onclick='display_pattern()'>Display pattern</button>
+                <button onclick='example_pattern()'>Load example pattern</button>
             </div>
             <!-- add somethign to highlight apparently malformed patterns? missing commas, etc -->
             <!-- something to rotate starting point? lines still locked to first stich, but would make it easier to see colored patterns that span rows -->
@@ -63,5 +64,15 @@
     </body>
     <script>
      $(function() {$('#input-text').linedtextarea()});
+     function example_pattern() {
+         jQuery.get('https://raw.githubusercontent.com/billbrod/amigurumi-pattern-display/main/example-pattern.txt', function(data) {
+             $('#input-text').text(data)
+             display_pattern()
+             $('#stitch-A').val('#898989')
+             $('#stitch-B').val('#cb7051')
+             $('#stitch-C').val('#fcfcfc')
+             update_colors()
+         })
+     }
     </script>
 </html>
