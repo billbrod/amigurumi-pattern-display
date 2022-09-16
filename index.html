@@ -31,11 +31,21 @@
     <body>
         <div class='grid-container'>
             <div>
-                <h2>Pattern:</h2>
                 <p>Enter your pattern below.</p>
+                <ul>
+                    <li>Each row of the pattern should be on a separate line.</li>
+                    <li>Stitches should be of the form <tt>x y</tt> where x is a number and y is one of <tt>{sc, inc, dec}</tt> and specifies whether it's a single crochet, increase, or decrease (other stitches currently unsupported).</li>
+                    <li>Stitches should be separated by commas, e.g., <tt>2 sc, 1 dec</tt>.</li>
+                    <li>Repeated sections can be denoted with square brackets and asterisks, e.g., <tt>[6 sc, 1 inc] * 4</tt>.</li>
+                    <li>Insert colors only when a color change happens. They can probably be denoted by any other string, but should probably use capital letters, e.g., <tt>A 3 sc, B 3 sc</tt>.</li>
+                    <li>After displaying the pattern, you'll be given the option to update colors. Any html-interpretable color can be used.</li>
+                    <li><tt>#</tt> denotes a comment: anything after it on that line will be ignored.</li>
+                </ul>
                 <button onclick='display_pattern()'>Display pattern</button>
             </div>
+            <!-- add somethign to highlight apparently malformed patterns? missing commas, etc -->
             <!-- something to rotate starting point? lines still locked to first stich, but would make it easier to see colored patterns that span rows -->
+            <!-- add toggle between current view and size-constant view (0-aligned and centered) -->
             <textarea placeholder='Enter pattern here' id='input-text'></textarea>
             <div></div>
             <form id='color-form' action='javascript:update_colors()'>
