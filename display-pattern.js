@@ -86,6 +86,7 @@ function update_colors() {
 
 function display_pattern({
     cellSize = 25,
+    add_color_form = true,
 } ={}) {
     marginLeft = 80
     pattern = convert_pattern_text($('#input-text').val())
@@ -106,10 +107,21 @@ function display_pattern({
     const height = d3.max(row_n) * cellSize
     const uniq_colors = new Set(stitch_color)
     const color = d3.scaleOrdinal(uniq_colors, d3.schemeCategory10);
-    construct_color_form(uniq_colors)
+    if (add_color_form) {
+        construct_color_form(uniq_colors)
+    }
 
     const yScale = d3.scaleBand(rows, [0, height]).padding(0)
-    const xScales = row_stitch_count.map(max_stitch => d3.scaleBand(d3.range(0, max_stitch), [0, width]).padding(0))
+    size_selector = $("input[type='radio'][name='size-selector']:checked").val()
+    if (size_selector =='stretch') {
+        xScales = row_stitch_count.map(max_stitch => d3.scaleBand(d3.range(0, max_stitch), [0, width]).padding(0))
+    } else if (size_selector == 'row-left') {
+        xScales = row_stitch_count.map(max_stitch => d3.scaleBand(d3.range(0, max_stitch), [0, (max_stitch-1) * cellSize]).padding(0))
+    } else {
+        xScales = row_stitch_count.map(max_stitch => d3.scaleBand(d3.range(0, max_stitch),
+                                                                  [width/2 - ((max_stitch-1) * cellSize)/2,
+                                                                   width/2 + ((max_stitch-1) * cellSize)/2]).padding(0))
+    }
 
     $('#chart').children().remove()
     const svg = d3.select('#chart')
@@ -167,5 +179,6 @@ function display_pattern({
        .selectAll('text')
        .text(i => `#${i+1}: ${actual_stitch_counts[i]}`)
 
+    update_colors()
     return Object.assign(svg.node(), {scales: {color}});
 }

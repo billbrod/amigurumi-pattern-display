@@ -58,7 +58,15 @@
                 <label for='dec'>Decreasing lines:</label>
                 <input type='text' id='dec' name='dec'><br>
             </form>
-            <h2>Pattern:</h2>
+            <div>
+                <h2>Pattern:</h2>
+                <input type='radio' id='stretch' name='size-selector' value='stretch' checked='checked' onchange='display_pattern({add_color_form: false})'>
+                <label for='stretch'>Stretch rows</label>
+                <input type='radio' id='row-left' name='size-selector' value='row-left' onchange='display_pattern({add_color_form: false})'>
+                <label for='row-left'>Left-aligned</label>
+                <input type='radio' id='row-ctr' name='size-selector' value='row-ctr' onchange='display_pattern({add_color_form: false})'>
+                <label for='row-ctr'>Centered</label>
+            </div>
             <svg id='chart'></svg>
         </div>
     </body>
