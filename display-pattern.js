@@ -185,7 +185,6 @@ function display_pattern_spherical(svg, width, height, cellSize,
         })
     }
 
-    graticule = d3.geoGraticule().stepMinor([15, 10])()
     projection = d3.geoEqualEarth()
                .reflectY(true)
                .clipExtent([[0, 0], [width, height]])
@@ -193,21 +192,6 @@ function display_pattern_spherical(svg, width, height, cellSize,
                .translate([width / 2, height / 2])
                .precision(0.1)
     path = d3.geoPath(projection)
-    svg.append("path")
-       .attr("d", path(graticule))
-       .attr("fill", "none")
-       .attr("stroke", "currentColor")
-       .attr("stroke-opacity", 0.2);
-    route = {
-        type: "Polygon",
-        coordinates: [[
-            [0,0],
-            [0,-60],
-            [-60,-60],
-            [-60,0],
-            [0,0],
-        ]]
-    }
 
     stitches = svg.append("g")
        .selectAll("path")
