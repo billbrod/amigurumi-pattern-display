@@ -45,8 +45,8 @@
                 <button onclick='example_pattern()'>Load example pattern</button>
             </div>
             <!-- add somethign to highlight apparently malformed patterns? missing commas, etc -->
-            <!-- something to rotate starting point? lines still locked to first stich, but would make it easier to see colored patterns that span rows -->
-            <!-- add toggle between current view and size-constant view (0-aligned and centered) -->
+            <!-- can I use this for a different projection? https://github.com/d3/d3-geo -->
+            <!-- after getting that working, allow rotation on drag -->
             <textarea placeholder='Enter pattern here' id='input-text'></textarea>
             <div></div>
             <form id='color-form' action='javascript:update_colors()'>
@@ -66,6 +66,8 @@
                 <label for='row-left'>Left-aligned</label>
                 <input type='radio' id='row-ctr' name='size-selector' value='row-ctr' onchange='display_pattern({add_color_form: false})'>
                 <label for='row-ctr'>Centered</label>
+                <input type='radio' id='spherical' name='size-selector' value='spherical' onchange='display_pattern({add_color_form: false})'>
+                <label for='spherical'>Spherical</label>
             </div>
             <svg id='chart'></svg>
         </div>
