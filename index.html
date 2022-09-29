@@ -9,6 +9,7 @@
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src='lined-textarea/jquery-linedtextarea.js'></script>
+        <script src="https://cdn.jsdelivr.net/npm/versor@0.2"></script>
         <link href='lined-textarea/jquery-linedtextarea.css' rel='stylesheet'>
         <script src='display-pattern.js'></script>
 
@@ -45,7 +46,7 @@
                 <button onclick='example_pattern()'>Load example pattern</button>
             </div>
             <!-- add somethign to highlight apparently malformed patterns? missing commas, etc -->
-            <!-- after getting that working: allow rotation on drag, change projection? -->
+            <!-- change spherical projection? -->
             <textarea placeholder='Enter pattern here' id='input-text'></textarea>
             <div></div>
             <form id='color-form' action='javascript:update_colors()'>
@@ -67,6 +68,7 @@
                 <label for='row-ctr'>Centered</label>
                 <input type='radio' id='spherical' name='size-selector' value='spherical' onchange='display_pattern({add_color_form: false})'>
                 <label for='spherical'>Spherical</label>
+                <g id='d3-help-text'></g>
             </div>
             <svg id='chart'></svg>
         </div>

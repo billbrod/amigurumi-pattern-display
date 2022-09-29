@@ -150,6 +150,48 @@ function display_pattern_rectangular(svg, width, height, cellSize,
        .attr("font-size", 15)
        .selectAll('text')
            .text(i => `#${i+1}: ${actual_stitch_counts[i]}`)
+
+    $('#d3-help-text').children().remove()
+}
+
+
+function drag(projection, svg, path) {
+    let v0, q0, r0, a0, l;
+
+    function pointer(event, that) {
+        const t = d3.pointers(event, that);
+
+        if (t.length !== l) {
+            l = t.length;
+            if (l > 1) a0 = Math.atan2(t[1][1] - t[0][1], t[1][0] - t[0][0]);
+            dragstarted.apply(that, [event, that]);
+        }
+
+        return t[0];
+    }
+
+    function dragstarted(event) {
+        v0 = versor.cartesian(projection.invert(pointer(event, this)));
+        q0 = versor(r0 = projection.rotate());
+    }
+
+    function dragged(event) {
+        const p = pointer(event, this);
+        const v1 = versor.cartesian(projection.rotate(r0).invert(p));
+        const delta = versor.delta(v0, v1);
+        let q1 = versor.multiply(q0, delta);
+
+        // only allow rotation in one direction
+        projection.rotate([versor.rotation(q1)[0], 0, 0]);
+        svg.selectAll('path').attr('d', path)
+
+        // In vicinity of the antipode (unstable) of q0, restart.
+        if (delta[0] < 0.7) dragstarted.apply(this, [event, this]);
+    }
+
+    return d3.drag()
+             .on("start", dragstarted)
+             .on("drag", dragged);
 }
 
 
@@ -218,7 +260,7 @@ function display_pattern_spherical(svg, width, height, cellSize,
                .precision(0.1)
     path = d3.geoPath(projection)
 
-    stitches = svg.append("g")
+    stitches = svg.append("g").attr('id', 'stitch_container')
        .selectAll("path")
        .data(polygons)
        .join('path')
@@ -227,7 +269,7 @@ function display_pattern_spherical(svg, width, height, cellSize,
          .attr('d', path)
          .attr('class', (d, i) => `stitch-${stitch_color[i]}`)
     stitches.append('title')
-            .text((d, i) => `${i} #${stitch_n[i]+1}: ${stitch_type[i]}`)
+            .text((d, i) => `#${stitch_n[i]+1}: ${stitch_type[i]}`)
 
     // horizontal lines to show decreases
     svg.append('g')
@@ -259,6 +301,20 @@ function display_pattern_spherical(svg, width, height, cellSize,
           .attr('transform', (d, i) => `translate(${projection([-180, d + .75*Math.abs(d-rows_angle[i+1])])})`)
           .attr("font-size", 15)
           .text((d, i) => `#${i+1}: ${actual_stitch_counts[i]}`)
+
+    function reset_rotation(event, d) {
+        projection.rotate([0, 0, 0]);
+        svg.selectAll('path').attr('d', path)
+    }
+
+    d3.select('#d3-help-text')
+      .append('ul')
+      .append('li').text('Drag to rotate horizontally.')
+      .append('li').text('Double-click to reset rotation.')
+
+    d3.select('#stitch_container')
+      .call(drag(projection, svg, path))
+      .on('dblclick', reset_rotation)
 
 }
 
@@ -313,5 +369,5 @@ function display_pattern({
     }
 
     update_colors()
-    return Object.assign(svg.node(), {scales: {color}});
+    return svg.node()
 }
