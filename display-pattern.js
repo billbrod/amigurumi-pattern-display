@@ -149,7 +149,7 @@ function display_pattern_rectangular(svg, width, height, cellSize,
        .call(yAxis)
        .attr("font-size", 15)
        .selectAll('text')
-       .text(i => `#${i+1}: ${actual_stitch_counts[i]}`)
+           .text(i => `#${i+1}: ${actual_stitch_counts[i]}`)
 }
 
 
@@ -161,9 +161,10 @@ function display_pattern_spherical(svg, width, height, cellSize,
     // we want rows to go from -80 to 80
     row_n_angle = row_n.map(d => ((d - equator) / (d3.max(row_n)+1)) * 160)
     rows_angle = rows.map(d => ((d - equator) / (d3.max(row_n)+1)) * 160)
+    rows_angle.push(80)
     row_nplus1_angle = row_n.map(d => rows_angle[d+1])
     // if it was undefined, it's because it's from the last row
-    row_nplus1_angle = row_nplus1_angle.map(d => d === undefined ? 80 : d)
+    // row_nplus1_angle = row_nplus1_angle.map(d => d === undefined ? 80 : d)
     // we want stitches to go from -180 to 180
     stitch_n_angle = stitch_n.map((d, i) => ((d - row_stitch_count[row_n[i]] / 2) / row_stitch_count[row_n[i]]) * 360)
     stitch_nplus1_angle = stitch_n.map((d, i) => stitch_n_angle[i+1])
@@ -248,6 +249,17 @@ function display_pattern_spherical(svg, width, height, cellSize,
           .attr('class', 'inc')
           .attr('fill', 'none')
           .style('stroke', 'red')
+
+    // axis label
+    svg.append('g')
+       .selectAll('text')
+       .data(rows_angle)
+       .join('text')
+          .attr('dx', (d, i) => `${-70 - (i/(rows_angle.length-1))*30}`)
+          .attr('transform', (d, i) => `translate(${projection([-180, d + .75*Math.abs(d-rows_angle[i+1])])})`)
+          .attr("font-size", 15)
+          .text((d, i) => `#${i+1}: ${actual_stitch_counts[i]}`)
+
 }
 
 
