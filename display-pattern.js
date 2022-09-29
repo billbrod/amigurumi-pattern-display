@@ -64,16 +64,17 @@ function update_colors() {
     div_line = d3.selectAll('input').filter('#cell').property('value')
     size_selector = $("input[type='radio'][name='size-selector']:checked").val()
     stitch_class = size_selector == 'spherical' ? 'path' : 'rect'
+    line_class = size_selector == 'spherical' ? 'path' : 'line'
     if (div_line != '') {
         d3.selectAll(stitch_class).style('stroke', div_line)
     }
     inc_line = d3.selectAll('input').filter('#inc').property('value')
     if (inc_line != '') {
-        d3.selectAll('line').filter('.inc').style('stroke', inc_line)
+        d3.selectAll(line_class).filter('.inc').style('stroke', inc_line)
     }
     dec_line = d3.selectAll('input').filter('#dec').property('value')
     if (dec_line != '') {
-        d3.selectAll('line').filter('.dec').style('stroke', dec_line)
+        d3.selectAll(line_class).filter('.dec').style('stroke', dec_line)
     }
     stitch_inputs = d3.selectAll('input').filter('.stitch-color').each(
         function(d, i ,j) {
@@ -172,6 +173,8 @@ function display_pattern_spherical(svg, width, height, cellSize,
     // -of the polygon. that means it was the last stitch, so replace with 90
     stitch_nplus1_angle = stitch_nplus1_angle.map(d => d === -180 ? 180 : d)
     polygons = []
+    inc_lines = []
+    dec_lines = []
     for (let i in row_n) {
         polygons.push({
             type: 'Polygon',
@@ -183,6 +186,27 @@ function display_pattern_spherical(svg, width, height, cellSize,
                 [stitch_n_angle[i], row_n_angle[i]],
             ]]
         })
+        if (stitch_type[i] == 'inc') {
+            inc_lines.push({
+                type: 'LineString',
+                coordinates: [
+                    [.5*(stitch_nplus1_angle[i] + stitch_n_angle[i]),
+                     row_n_angle[i] + .25*Math.abs(row_n_angle[i] - row_nplus1_angle[i])],
+                    [.5*(stitch_nplus1_angle[i] + stitch_n_angle[i]),
+                     row_n_angle[i] + .75*Math.abs(row_n_angle[i] - row_nplus1_angle[i])],
+                ]
+            })
+        } else if (stitch_type[i] == 'dec') {
+            dec_lines.push({
+                type: 'LineString',
+                coordinates: [
+                    [stitch_n_angle[i] + .25*Math.abs(stitch_nplus1_angle[i] - stitch_n_angle[i]),
+                     .5*(row_n_angle[i] + row_nplus1_angle[i])],
+                    [stitch_n_angle[i] + .75*Math.abs(stitch_nplus1_angle[i] - stitch_n_angle[i]),
+                     .5*(row_n_angle[i] + row_nplus1_angle[i])],
+                ]
+            })
+        }
     }
 
     projection = d3.geoEqualEarth()
@@ -203,6 +227,27 @@ function display_pattern_spherical(svg, width, height, cellSize,
          .attr('class', (d, i) => `stitch-${stitch_color[i]}`)
     stitches.append('title')
             .text((d, i) => `${i} #${stitch_n[i]+1}: ${stitch_type[i]}`)
+
+    // horizontal lines to show decreases
+    svg.append('g')
+       .selectAll('path')
+       .data(dec_lines)
+       .join('path')
+          .attr('d', path)
+          .attr('class', 'dec')
+          .attr('id', (d, i) => i)
+          .attr('fill', 'none')
+          .style('stroke', 'red')
+
+    // vertical lines to show increases
+    svg.append('g')
+       .selectAll('path')
+       .data(inc_lines)
+       .join('path')
+          .attr('d', path)
+          .attr('class', 'inc')
+          .attr('fill', 'none')
+          .style('stroke', 'red')
 }
 
 
