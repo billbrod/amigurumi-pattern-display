@@ -20,6 +20,9 @@ C 3 sc, B 14 sc, C 3 sc, A 12 sc
 [1 dec, 1 sc] * 5
 5 dec
 
+# the following lines are comments and thus ignored by the website. If you write
+# your own pattern, you'll need to enter them manually in the boxes at right
+
 # colors:
 # A: #898989
 # B: #cb7051
