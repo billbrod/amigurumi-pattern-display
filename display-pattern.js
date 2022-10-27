@@ -39,23 +39,32 @@ function construct_color_form(uniq_colors) {
     // make sure uniq_colors is an Array, the for loop won't work if it's a set
     uniq_colors = new Array(...uniq_colors)
     color_form = d3.select('#color-form')
+    existing_colors = d3.map(color_form.selectAll('input').filter('.stitch-color'),
+                             d => d.id.replace('stitch-', ''))
     // remove old pattern colors
-    color_form.selectAll('label').filter('.stitch-color').remove()
-    color_form.selectAll('input').filter('.stitch-color').remove()
-    color_form.selectAll('br').filter('.stitch-color').remove()
+    d3.filter(color_form.selectAll('label').filter('.stitch-color'),
+              d => uniq_colors.indexOf(d.id.replace('stitch-', '')) == -1).map(d => d.remove())
+    d3.filter(color_form.selectAll('input').filter('.stitch-color'),
+              d => uniq_colors.indexOf(d.id.replace('stitch-', '')) == -1).map(d => d.remove())
+    d3.filter(color_form.selectAll('br').filter('.stitch-color'),
+              d => uniq_colors.indexOf(d.id.replace('stitch-', '')) == -1).map(d => d.remove())
     // add new colors
     for (let i in uniq_colors) {
         c = uniq_colors[i]
-        color_form.append('label')
-                  .attr('class', 'stitch-color')
-                  .attr('for', `stitch-${c}`)
-                  .text(`Stitch color ${c}:`)
-        color_form.append('input')
-                  .attr('class', 'stitch-color')
-                  .attr('id', `stitch-${c}`)
-                  .attr('name', `stitch-${c}`)
-        color_form.append('br')
-                  .attr('class', 'stitch-color')
+        if (existing_colors.indexOf(c) == -1) {
+            color_form.append('label')
+                      .attr('class', 'stitch-color')
+                      .attr('id', `stitch-${c}`)
+                      .attr('for', `stitch-${c}`)
+                      .text(`Stitch color ${c}:`)
+            color_form.append('input')
+                      .attr('class', 'stitch-color')
+                      .attr('id', `stitch-${c}`)
+                      .attr('name', `stitch-${c}`)
+            color_form.append('br')
+                      .attr('class', 'stitch-color')
+                      .attr('id', `stitch-${c}`)
+        }
     }
 }
 
