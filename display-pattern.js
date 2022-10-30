@@ -365,6 +365,7 @@ function display_pattern({
                   .attr("font-size", 10);
     size_selector = $("input[type='radio'][name='size-selector']:checked").val()
 
+    $('#d3-help-text').children().remove()
     if (size_selector == 'spherical') {
         display_pattern_spherical(svg, width, height, cellSize,
                                    stitch_color, stitch_type, row_n, stitch_n, I,
