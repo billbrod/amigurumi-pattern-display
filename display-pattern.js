@@ -98,7 +98,7 @@ function update_colors() {
 
 
 function display_pattern_rectangular(svg, width, height, cellSize,
-                                     stitch_color, stitch_type, row_n, stitch_n, I,
+                                     stitch_color, secondary_stitch_color, stitch_type, row_n, stitch_n, I,
                                      rows, row_idx, row_stitch_count, actual_stitch_counts,
                                      color) {
 
@@ -121,9 +121,17 @@ function display_pattern_rectangular(svg, width, height, cellSize,
          .attr('height', cellSize)
          .attr('width', i => xScales[row_n[i]].bandwidth())
          .attr('fill', i => color(stitch_color[i]))
-         .style('stroke', 'black')
          .attr('y', i => yScale(row_n[i]))
          .attr('x', i => xScales[row_n[i]](stitch_n[i]))
+
+    stitches.clone()
+         .attr('display', i => stitch_type[i] == 'inc' ? null : 'none')
+         .attr('stroke-width', 0)
+         .attr('x', i => xScales[row_n[i]](stitch_n[i]) + .5 * xScales[row_n[i]].bandwidth())
+         .attr('width', i => xScales[row_n[i]].bandwidth() / 2)
+         .attr('fill', i => color(secondary_stitch_color[i]))
+         .attr('class', i => `inc stitch-${secondary_stitch_color[i]}`)
+
     stitches.append('title')
             .text(i => `#${stitch_n[i]+1}: ${stitch_type[i]}`)
 
@@ -338,6 +346,7 @@ function display_pattern({
     stitch_type = d3.map(pattern, d => d[1])
     row_n = d3.map(pattern, d => d[2])
     stitch_n = d3.map(pattern, d => d[3])
+    secondary_stitch_color = d3.map(pattern, d => d[4])
     I = d3.range(stitch_n.length);
 
     rows = d3.range(0, d3.max(row_n)+1)
@@ -368,12 +377,12 @@ function display_pattern({
     $('#d3-help-text').children().remove()
     if (size_selector == 'spherical') {
         display_pattern_spherical(svg, width, height, cellSize,
-                                   stitch_color, stitch_type, row_n, stitch_n, I,
+                                   stitch_color, secondary_stitch_color, stitch_type, row_n, stitch_n, I,
                                    rows, row_idx, row_stitch_count, actual_stitch_counts,
                                    color)
     } else {
         display_pattern_rectangular(svg, width, height, cellSize,
-                                    stitch_color, stitch_type, row_n, stitch_n, I,
+                                    stitch_color, secondary_stitch_color, stitch_type, row_n, stitch_n, I,
                                     rows, row_idx, row_stitch_count, actual_stitch_counts,
                                     color)
     }
