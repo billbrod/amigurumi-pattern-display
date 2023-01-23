@@ -6,6 +6,7 @@
 - D: #fdc7d8
 
 # Body
+
 C 6 sc
 B 1 inc, 5 inc
 A 1 inc, B 1 sc, [1 inc, 1 sc] * 4, 1 inc, 1 sc
@@ -16,17 +17,17 @@ A 3 sc, B 15 sc
 1 inc, B 1 sc, A 2 sc, 1 inc, 2 sc, C 1 sc, 1 inc, 3 sc, 1 inc, 1sc, C 2 sc, 1 inc B, 2 sc,C 1sc, 1inc, 5sc
 2sc, A 8 sc, C 10 sc, B 6sc, C 5 sc, A 1 sc
 13 sc, C 5 sc, B 9sc, C 4 sc, A 1 sc
-1 inc, 4 sc,  1 inc, 2sc, C 2 sc, 1 inc, 2 sc, B 2 sc, 1 inc, 3sc, C 1 sc, 1 inc, 4 sc, A 1 inc, 4sc, 1 inc, 1 sc
-10sc, C 6 sc, B 7 sc, C 4sc, 1 inc, 2 sc, 1 inc,A 2sc, 1 inc, 2 sc, [1 inc, 2 sc] * 1
-11sc, C 3 sc, A 3sc,C 1 sc, B 7sc, C 2sc, A 1 inc, 1sc, C 2 sc, 1 inc, 2 sc, A 1sc, [1 inc, 3 sc]*2
-12sc, C 1 sc, D 1sc, C 1sc, A 3sc,C 1 sc, B 1sc, C 7 sc, B 1 inc, C 2 sc, A 2sc, 1 inc, C 1 sc, D 1sc, C 2sc, A 1 inc, 4 sc, 1 inc, 4 sc
-13sc, C 1 sc, D 1sc, C 1sc, A 3sc, C 1 sc, D 1sc, C 1sc, A 2sc, C 4sc, A 2sc, C 1 sc, D 1sc, C 1sc, A 3sc, C 1 sc, D 1sc, C 2sc, A 11sc
-13sc, C 3 sc, A 3sc,C 1 sc, D 1sc, C 1sc, A 3sc, C 2sc, A 3sc,C 1 sc, D 1sc, C 1sc, A 3 sc, C 4sc, A 11sc
-2 sc, [1 dec, 3 sc] * 2, 1 dec, 1 sc, C 1 sc, A 1 sc, 1 dec, 2 sc, C 1 sc, 1 dec, 1 sc, A 3 sc, C 1sc, A 3sc, C 3 sc, A 4 sc, C 1sc, A 11 sc
-2 sc, 1 dec, 3 sc, 1 dec, 2 sc, 1sc, C 1 dec, A 3 sc, 1 dec, C 1sc, A 2 sc, 1 dec, 4 sc, C 1sc, A 5 sc, C 1sc, A 9 sc, 1 dec
-2 sc, 1 dec, 2 sc, 1 dec, A 1sc, 1sc, C 1 dec, A 2 sc, 1 dec, C 1sc, A 1 sc, 5 sc, C 1sc, A 3 sc, 1 dec, C 1 sc, A 2 sc, 1 dec, 3 sc, 1dec, 1 sc
-1 sc, 1 dec, 3 sc, 1 dec, C 1 sc, A 2 sc, 1 dec, C 1 sc, A 2 sc, 1 dec, 2 sc, C 1 sc, A 1 dec, 2 sc, C 1 sc, A 1 dec, 3 sc, 2 sc
-1 dec, 2 sc, 1 dec, C 1 sc, A 1 sc, 1 dec,C 1sc, A 1 sc, 1 dec, 2 sc, C 1 dec, A 2 sc, C 1 dec,A 2 sc, 1 dec, 1 sc
+1 inc, 4 sc,  1 inc, 2sc, 2 sc, 1 inc, 2 sc, C 2 sc, 1 inc, 2sc, B 2 sc, 1 inc, 4 sc, 1 inc, 2sc, C 2sc, 1 inc, 1 sc
+A 16sc, C 7 sc, B 4sc, 1 inc, 2 sc, 1 inc, 2sc, 1 inc C, 2 sc, 1 inc, 2 sc
+A 16sc, C 3sc, A 3sc, C 1sc, B 4sc, 1 inc, 3sc, 1 inc, 3 sc, 1 inc, C 1sc, A 2 sc, 1 inc C, 3 sc
+A 16sc, C 1 sc, D 2sc, C 1sc, A 3sc, C 1 sc, B 1sc, C 2 sc, 1 inc, 4 sc, 1 inc, C 4 sc, 1 inc, B 1 sc, C 1sc, A 2 sc, 1 inc C, 1sc, D 2sc, C 1sc
+A 16sc, C 1sc, D 2sc, C 1 sc, A 3sc, C 1sc, D 2sc, C 1sc, A 2sc, C 9 sc, A 2sc, C 1 sc, D 2sc, C 1sc, A 3sc, C1sc, D2sc, C1sc
+A 16sc, C 4sc, A 3 sc, C1sc, D 2sc, C 1sc, A 4sc, C 5sc, A 4sc,C 1 sc, D 2sc, C 1sc, A 3 sc, C 4sc
+A 2 sc, [1 dec, 3 sc] * 3, C 1 dec, 1 sc, A 1 sc, 1 dec, C 4 sc, A 6 sc, C 1 sc, A 6 sc,C4sc,A4sc,C2sc,A1sc
+2 sc, 1 dec, 3 sc, 1 dec, 2 sc, 1sc, 1 dec, C 2 sc, A1sc, 1 dec, C 2sc, A 1 sc, 1 dec, 12 sc, C 2sc, A 5 sc, C 1 dec, A 1sc
+2 sc, 1 dec, 2 sc, 1 dec, 1sc, 1sc, 1 dec,C1sc, A 1sc, 1sc, C 1 dec, A 10 sc, 1 dec, 2 sc, C 1 dec, A 3 sc, 1dec, C 1 sc,A 1sc
+1 sc, 1 dec, 3 sc, 1 dec, 1 sc, C1sc, A 2 sc, C 1 sc, A 1dec, 1 sc, 1 dec, 3 sc, 1 dec, 3 sc, C1sc, A 1 dec, 2 sc, C 1 sc, A 1sc
+1 dec, 2 sc, 1 dec, 1 sc, C 1 sc, A 2sc, C1dec, A 1 sc, 1 dec, 1 sc, 1 dec, 1 sc, 1 dec,C 1 sc,A1sc, 1 dec, C1 sc, A1sc
 [1 dec, 2 sc] * 5
 [1 dec, 1 sc] * 5
 5 dec
