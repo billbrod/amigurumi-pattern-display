@@ -14,8 +14,8 @@ A 3 sc, B 15 sc
 1 inc A, 3 sc, B 1 inc, 2sc, C 1 sc, B 1sc, 1 inc, 3 sc, 1 inc, 2sc, C 1sc, B 1 sc
 1 inc, A 4 sc, B 1 inc C, 4 sc, 1 inc, 2 sc, B 2 sc, 1 inc C, 6 sc
 1 inc, B 1 sc, A 2 sc, 1 inc, 2 sc, C 1 sc, 1 inc, 3 sc, 1 inc, 1sc, C 2 sc, 1 inc B, 2 sc,C 1sc, 1inc, 5sc
-4 sc, C 10 sc, B 4sc, C 11 sc, A 3 sc
-8 sc, C 5 sc, B 6sc, C 6 sc, A 7 sc
+2sc, A 8 sc, C 10 sc, B 6sc, C 5 sc, A 1 sc
+13 sc, C 5 sc, B 9sc, C 4 sc, A 1 sc
 1 inc, 4 sc,  1 inc, 2sc, C 2 sc, 1 inc, 2 sc, B 2 sc, 1 inc, 3sc, C 1 sc, 1 inc, 4 sc, A 1 inc, 4sc, 1 inc, 1 sc
 10sc, C 6 sc, B 7 sc, C 4sc, 1 inc, 2 sc, 1 inc,A 2sc, 1 inc, 2 sc, [1 inc, 2 sc] * 1
 11sc, C 3 sc, A 3sc,C 1 sc, B 7sc, C 2sc, A 1 inc, 1sc, C 2 sc, 1 inc, 2 sc, A 1sc, [1 inc, 3 sc]*2
