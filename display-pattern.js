@@ -213,7 +213,7 @@ function drag(projection, svg, path) {
 
 
 function display_pattern_spherical(svg, width, height, cellSize,
-                                   stitch_color, stitch_type, row_n, stitch_n, I,
+                                   stitch_color, secondary_stitch_color, stitch_type, row_n, stitch_n, I,
                                    rows, row_idx, row_stitch_count, actual_stitch_counts,
                                    color) {
     equator = (d3.max(row_n)+1) / 2
@@ -233,6 +233,7 @@ function display_pattern_spherical(svg, width, height, cellSize,
     // -of the polygon. that means it was the last stitch, so replace with 90
     stitch_nplus1_angle = stitch_nplus1_angle.map(d => d === -180 ? 180 : d)
     polygons = []
+    secondary_polygons = []
     inc_lines = []
     dec_lines = []
     for (let i in row_n) {
@@ -244,6 +245,16 @@ function display_pattern_spherical(svg, width, height, cellSize,
                 [stitch_nplus1_angle[i], row_nplus1_angle[i]],
                 [stitch_nplus1_angle[i], row_n_angle[i]],
                 [stitch_n_angle[i], row_n_angle[i]],
+            ]]
+        })
+        secondary_polygons.push({
+            type: 'Polygon',
+            coordinates: [[
+                [stitch_n_angle[i] + .5*Math.abs(stitch_nplus1_angle[i] - stitch_n_angle[i]), row_n_angle[i]],
+                [stitch_n_angle[i] + .5*Math.abs(stitch_nplus1_angle[i] - stitch_n_angle[i]), row_nplus1_angle[i]],
+                [stitch_nplus1_angle[i], row_nplus1_angle[i]],
+                [stitch_nplus1_angle[i], row_n_angle[i]],
+                [stitch_n_angle[i] + .5*Math.abs(stitch_nplus1_angle[i] - stitch_n_angle[i]), row_n_angle[i]],
             ]]
         })
         if (stitch_type[i] == 'inc') {
@@ -285,8 +296,19 @@ function display_pattern_spherical(svg, width, height, cellSize,
          .attr('fill', (d, i) => color(stitch_color[i]))
          .attr('d', path)
          .attr('class', (d, i) => `stitch-${stitch_color[i]}`)
+
     stitches.append('title')
             .text((d, i) => `#${stitch_n[i]+1}: ${stitch_type[i]}`)
+
+    svg.append("g").attr('id', 'stitch_container')
+       .selectAll("path")
+       .data(secondary_polygons)
+       .join('path')
+         .attr('stroke-width', 0)
+         .attr('fill', (d, i) => color(secondary_stitch_color[i]))
+         .attr('d', path)
+         .attr('class', (d, i) => `inc stitch-${stitch_color[i]}`)
+         .attr('display', (d, i) => stitch_type[i] == 'inc' ? null : 'none')
 
     // horizontal lines to show decreases
     svg.append('g')
